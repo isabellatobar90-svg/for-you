@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Piece of My Heart 🖤</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; color: #f8e9e9;
+  background: radial-gradient(ellipse at top, #431d2b, #100b12 65%);
+  font-family: Georgia, serif; text-align: center;
+  display: flex; justify-content: center; align-items: center;
+  padding: 30px 18px;
+}
+main { max-width: 440px; width: 100%; }
+.eyebrow { letter-spacing: 4px; font: 10px Arial,sans-serif; color: #d9a9b7; }
+h1 { font-size: 34px; font-weight: normal; margin: 14px 0 8px; }
+.sub { color: #d6bdc4; font-size: 14px; line-height: 1.7; }
+.record {
+  width: min(72vw, 270px); aspect-ratio: 1; border-radius: 50%;
+  margin: 30px auto; position: relative;
+  background: repeating-radial-gradient(circle, #181619 0 3px, #242126 4px 5px, #111 6px 8px);
+  box-shadow: 0 0 0 8px #24151e, 0 18px 45px #0009;
+  animation: spin 7s linear infinite; animation-play-state: paused;
+}
+.record.playing { animation-play-state: running; }
+.label {
+  position: absolute; width: 35%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #e6b6c1, #8e4058);
+  top: 32.5%; left: 32.5%; display: grid; place-items: center;
+  color: #32151f; font: 10px Arial,sans-serif; letter-spacing: 2px;
+}
+.hole { position: absolute; width: 7px; height: 7px; background: #120d12;
+  border-radius: 50%; top: calc(50% - 3.5px); left: calc(50% - 3.5px); }
+@keyframes spin { to { transform: rotate(360deg); } }
+button {
+  border: 1px solid #b7798b; border-radius: 30px; padding: 13px 22px;
+  background: #6d3045; color: #fff1f4; font-size: 13px;
+  cursor: pointer; margin: 7px; font-family: Arial,sans-serif;
+}
+button:hover { background: #87425a; }
+.letter {
+  text-align: left; background: #fff8f4; color: #38232b;
+  padding: 23px; border-radius: 4px; margin-top: 22px;
+  line-height: 1.85; font-size: 15px;
+}
+.hidden { display: none; }
+.note { color: #c9aab5; font: 11px Arial,sans-serif; margin-top: 25px; }
+a { color: #f2c2d0; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">MADE WITH LOVE, JUST FOR YOU</div>
+  <h1>For my favorite person. 🖤</h1>
+  <p class="sub">A little piece of my heart, across every mile.</p>
+
+  <div class="record" id="record">
+    <div class="label">JUST FOR YOU<div>♡</div></div>
+    <div class="hole"></div>
+  </div>
+
+  <p class="sub">SIDE A · A SONG THAT MAKES ME THINK OF YOU</p>
+
+  <button id="play" onclick="toggleRecord()">▶ Play our song</button>
+  <button onclick="document.getElementById('letter').classList.toggle('hidden')">
+    💌 Open your letter
+  </button>
+
+  <div id="letter" class="letter hidden">
+    <p>To my love, 🤍</p>
+    <p>Sometimes I think about how crazy it is that, in this big world, I found you. Out of all the people we could have met, somehow our paths crossed, and I got to know and love you. I don't think I'll ever want to take that for granted.</p>
+    <p>I know distance isn't always easy, but I'm so grateful that I get to experience this life with you, even from miles away. I'm grateful for who you are, your heart, your mind, your dreams, and all the little things that make you who you are.</p>
+    <p>I'm so glad it's you, babe. If I could choose one person to keep discovering, growing with, and loving through all the seasons of life, I'd still want it to be you.</p>
+    <p>I love you. Always grateful that I get to call you mine. 🤍</p>
+    <p style="text-align:right">— Your girl ♡</p>
+  </div>
+
+  <p class="note">A little reminder that, out of everyone in this world, it's you.</p>
+  <p class="note">Our song: <a href="https://open.spotify.com/search/Get%20You%20Daniel%20Caesar%20Kali%20Uchis" target="_blank" rel="noopener">Get You · Daniel Caesar &amp; Kali Uchis</a></p>
+</main>
+<script>
+let opened = false;
+function toggleRecord() {
+  const record = document.getElementById('record');
+  const button = document.getElementById('play');
+  opened = !opened;
+  record.classList.toggle('playing', opened);
+  button.textContent = opened ? 'Ⅱ Pause the spin' : '▶ Play our song';
+}
+</script>
+</body>
+</html>
