@@ -5,6 +5,201 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Little Piece of My Heart 🖤</title>
+  
+
+/* Realistic envelope and letter */
+.envelope-area {
+  margin: 32px auto;
+  perspective: 1000px;
+  max-width: 360px;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  perspective: 900px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope-shadow {
+  position: absolute;
+  inset: 12px 5px 0;
+  background: #000;
+  filter: blur(18px);
+  opacity: .45;
+  border-radius: 8px;
+}
+
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #42232d, #21171d 75%);
+  border: 1px solid #76505b;
+  border-radius: 4px;
+}
+
+.envelope-pocket {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #653344, #39212b);
+  clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+  z-index: 4;
+}
+
+.envelope-pocket::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(35deg, #24161d66, transparent 60%);
+}
+
+.envelope-flap {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  background: linear-gradient(150deg, #8c4b5d, #492633);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform 900ms ease, z-index 0ms 450ms;
+  backface-visibility: visible;
+}
+
+.envelope-front {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  border: 1px solid #8a5c68;
+  border-radius: 4px;
+  pointer-events: none;
+  background:
+    linear-gradient(32deg, transparent 49.5%, #a06a7825 50%, transparent 50.5%),
+    linear-gradient(-32deg, transparent 49.5%, #a06a7825 50%, transparent 50.5%);
+}
+
+.envelope-address {
+  position: absolute;
+  z-index: 7;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  color: #f4e5df;
+  pointer-events: none;
+  font: 11px Arial, sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.envelope-address strong {
+  display: block;
+  margin-top: 8px;
+  font: 26px Georgia, serif;
+  letter-spacing: 1px;
+  text-transform: none;
+}
+
+.wax-seal {
+  position: absolute;
+  z-index: 8;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #f4d6d9;
+  font-size: 22px;
+  background: radial-gradient(circle at 35% 30%, #b85e70, #70253b 72%);
+  border: 2px solid #9c5264;
+  box-shadow: 0 3px 8px #14090d99, inset 0 0 0 2px #ffffff16;
+  transition: opacity 300ms ease;
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 2;
+}
+
+.envelope.open .wax-seal {
+  opacity: 0;
+}
+
+.envelope-hint {
+  margin-top: 16px;
+  color: #d9a3ae;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 2px;
+}
+
+.love-letter {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  max-width: 360px;
+  padding: 28px 23px;
+  color: #35232a;
+  text-align: left;
+  background:
+    repeating-linear-gradient(
+      0deg, transparent 0px, transparent 30px,
+      #8a64700b 31px
+    ),
+    linear-gradient(135deg, #fffaf1, #eadccd);
+  border: 1px solid #c9b29d;
+  box-shadow: 0 15px 40px #0005;
+  line-height: 1.9;
+  font: 15px/1.9 Georgia, serif;
+  overflow-wrap: anywhere;
+  animation: letter-arrive 700ms ease both;
+}
+
+.love-letter h2 {
+  font: 25px Georgia, serif;
+  text-align: center;
+  margin: 0 0 24px;
+  color: #542638;
+}
+
+.love-letter p {
+  margin: 0 0 17px;
+}
+
+.love-letter .signature {
+  color: #762d45;
+  text-align: right;
+  font-style: italic;
+}
+
+.letter-hidden {
+  display: none;
+}
+
+@keyframes letter-arrive {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope-flap, .wax-seal {
+    transition: none;
+  }
+  .love-letter {
+    animation: none;
+  }
+}
+
+
 <style>
 * { box-sizing: border-box; }
 body {
@@ -67,16 +262,87 @@ a { color: #f2c2d0; }
   <button id="play" onclick="toggleRecord()">▶ Play our song</button>
   <button onclick="document.getElementById('letter').classList.toggle('hidden')">
     💌 Open your letter
+
+<div class="envelope-area">
+  <button
+    class="envelope"
+    id="envelope"
+    type="button"
+    onclick="toggleLoveLetter()"
+    aria-expanded="false"
+    aria-controls="love-letter"
+    aria-label="Open the love letter from Isabella"
+  >
+    <span class="envelope-shadow"></span>
+    <span class="envelope-back"></span>
+    <span class="envelope-pocket"></span>
+    <span class="envelope-flap"></span>
+    <span class="envelope-front"></span>
+
+    <span class="wax-seal" aria-hidden="true">♡</span>
+
+    <span class="envelope-address">
+      A letter for
+      <strong>Marius 🤍</strong>
+      From Isabella, with love
+    </span>
   </button>
 
-  <div id="letter" class="letter hidden">
-    <p>To my love, 🤍</p>
-    <p>Sometimes I think about how crazy it is that, in this big world, I found you. Out of all the people we could have met, somehow our paths crossed, and I got to know and love you. I don't think I'll ever want to take that for granted.</p>
-    <p>I know distance isn't always easy, but I'm so grateful that I get to experience this life with you, even from miles away. I'm grateful for who you are, your heart, your mind, your dreams, and all the little things that make you who you are.</p>
-    <p>I'm so glad it's you, babe. If I could choose one person to keep discovering, growing with, and loving through all the seasons of life, I'd still want it to be you.</p>
-    <p>I love you. Always grateful that I get to call you mine. 🤍</p>
-    <p style="text-align:right">— Your girl ♡</p>
-  </div>
+  <p class="envelope-hint" id="envelope-hint">
+    TAP THE SEAL TO OPEN YOUR LETTER ♡
+  </p>
+</div>
+
+<section class="love-letter letter-hidden" id="love-letter">
+  <h2>To Marius 🤍</h2>
+
+  <p>
+    Sometimes I still think about how crazy it is that, out of all
+    the people in this world, I found you. Of all the paths we could
+    have taken, somehow ours crossed — and I'm so grateful they did.
+  </p>
+
+  <p>
+    I wish I could be beside you for every little moment, not just
+    the big ones. I wish distance didn't mean missing your hugs,
+    your presence, or the simple comfort of being close to you.
+    But even from far away, you have become such a special part
+    of my life.
+  </p>
+
+  <p>
+    I hope you know that I'm grateful for more than the way you
+    make me feel. I'm grateful for <em>you</em> — your heart,
+    your mind, your dreams, your laugh, and all the little things
+    that make you who you are. I never want to treat having you
+    in my life like something ordinary.
+  </p>
+
+  <p>
+    We may have miles between us, but you are still someone I
+    choose with my mind and heart. I want to keep learning you,
+    cheering for you, growing with you, and making memories with
+    you, one day at a time.
+  </p>
+
+  <p>
+    If I could go back to the beginning without knowing how
+    everything would turn out, I would still hope our paths
+    crossed. I'm so glad it's you, Marius. Thank you for being
+    someone I get to love.
+  </p>
+
+  <p>
+    Whenever you listen to this song, I hope it reminds you that
+    somewhere in this world, there's a girl from a small island
+    in the Caribbean who is incredibly grateful that she found you.
+  </p>
+
+  <p class="signature">
+    All yours,<br>
+    Isabella ♡
+  </p>
+</section>
 
   <p class="note">A little reminder that, out of everyone in this world, it's you.</p>
   <p class="note">Our song: <a href="https://open.spotify.com/search/Get%20You%20Daniel%20Caesar%20Kali%20Uchis" target="_blank" rel="noopener">Get You · Daniel Caesar &amp; Kali Uchis</a></p>
@@ -90,6 +356,33 @@ function toggleRecord() {
   record.classList.toggle('playing', opened);
   button.textContent = opened ? 'Ⅱ Pause the spin' : '▶ Play our song';
 }
+  
+function toggleLoveLetter() {
+  const envelope = document.getElementById("envelope");
+  const letter = document.getElementById("love-letter");
+  const hint = document.getElementById("envelope-hint");
+
+  const opening = letter.classList.contains("letter-hidden");
+
+  envelope.classList.toggle("open", opening);
+  letter.classList.toggle("letter-hidden", !opening);
+
+  envelope.setAttribute("aria-expanded", String(opening));
+
+  hint.textContent = opening
+    ? "YOUR LETTER, WITH ALL MY LOVE ♡"
+    : "TAP THE SEAL TO OPEN YOUR LETTER ♡";
+
+  if (opening) {
+    setTimeout(() => {
+      letter.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 350);
+  }
+}
+
 </script>
 </body>
 </html>
